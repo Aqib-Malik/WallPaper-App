@@ -106,7 +106,8 @@ class _SearchViewState extends State<SearchView> {
             // ),
             Obx(
               () => Expanded(
-                  child: Get.find<SearchViewController>().isloading == false
+                  child: Get.find<SearchViewController>().isloading.value ==
+                          false
                       ? Container(
                           child: GridView.builder(
                               itemCount: Get.find<SearchViewController>()

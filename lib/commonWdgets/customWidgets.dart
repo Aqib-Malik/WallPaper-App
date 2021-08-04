@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomWidget {
+  // ignore: non_constant_identifier_names
   static SnackBarr(String title, String message) {
     return Get.snackbar(title.toString(), message.toString(),
         snackPosition: SnackPosition.TOP,
