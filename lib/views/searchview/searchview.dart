@@ -4,6 +4,7 @@ import 'package:api_integration/views/fullscreen/fullscreen_binding.dart';
 import 'package:api_integration/views/searchview/searchview_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 class SearchView extends StatefulWidget {
@@ -70,86 +71,150 @@ class _SearchViewState extends State<SearchView> {
         elevation: 0.0,
       ),
       backgroundColor: Colors.white,
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 16,
-            ),
-            // Container(
-            //   decoration: BoxDecoration(
-            //     color: Color(0xfff5f8fd),
-            //     borderRadius: BorderRadius.circular(30),
-            //   ),
-            //   margin: EdgeInsets.symmetric(horizontal: 24),
-            //   padding: EdgeInsets.symmetric(horizontal: 24),
-            //   child: Row(
-            //     children: <Widget>[
-            //       Expanded(
-            //           child: TextField(
-            //         controller: searchController,
-            //         decoration: InputDecoration(
-            //             hintText: "search wallpapers",
-            //             border: InputBorder.none),
-            //       )),
-            //       InkWell(
-            //           onTap: () {
-            //             Get.find<SearchViewController>()
-            //                 .getSearchWallpaper(searchController.text);
-            //           },
-            //           child: Container(child: Icon(Icons.search)))
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 30,
-            // ),
-            Obx(
-              () => Expanded(
-                  child: Get.find<SearchViewController>().isloading.value ==
-                          false
-                      ? Container(
-                          child: GridView.builder(
-                              itemCount: Get.find<SearchViewController>()
-                                  .photos
-                                  .length,
-                              shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              physics: ClampingScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisSpacing: 2,
-                                      crossAxisCount: 3,
-                                      childAspectRatio: 2 / 3,
-                                      mainAxisSpacing: 2),
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Get.to(
-                                        FullScreen(
-                                          imageurl:
-                                              Get.find<SearchViewController>()
+      body: Obx(
+        () => Stack(
+          children: [
+            Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 16,
+                  ),
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     color: Color(0xfff5f8fd),
+                  //     borderRadius: BorderRadius.circular(30),
+                  //   ),
+                  //   margin: EdgeInsets.symmetric(horizontal: 24),
+                  //   padding: EdgeInsets.symmetric(horizontal: 24),
+                  //   child: Row(
+                  //     children: <Widget>[
+                  //       Expanded(
+                  //           child: TextField(
+                  //         controller: searchController,
+                  //         decoration: InputDecoration(
+                  //             hintText: "search wallpapers",
+                  //             border: InputBorder.none),
+                  //       )),
+                  //       InkWell(
+                  //           onTap: () {
+                  //             Get.find<SearchViewController>()
+                  //                 .getSearchWallpaper(searchController.text);
+                  //           },
+                  //           child: Container(child: Icon(Icons.search)))
+                  //     ],
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: 30,
+                  // ),
+                  Expanded(
+                      child: Get.find<SearchViewController>().isloading.value ==
+                              false
+                          ? Container(
+                              child: GridView.builder(
+                                  itemCount: Get.find<SearchViewController>()
+                                      .photos
+                                      .length,
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                  physics: ClampingScrollPhysics(),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisSpacing: 2,
+                                          crossAxisCount: 3,
+                                          childAspectRatio: 2 / 3,
+                                          mainAxisSpacing: 2),
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.to(
+                                            FullScreen(
+                                              imageurl: Get.find<
+                                                          SearchViewController>()
                                                       .photos[index]['src']
                                                   ['large2x'],
+                                            ),
+                                            binding: FullScreenBinding());
+                                      },
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Image.network(
+                                          Get.find<SearchViewController>()
+                                              .photos[index]['src']['tiny'],
+                                          fit: BoxFit.cover,
                                         ),
-                                        binding: FullScreenBinding());
-                                  },
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: Image.network(
-                                      Get.find<SearchViewController>()
-                                          .photos[index]['src']['tiny'],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                );
-                              }),
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(),
-                        )),
+                                      ),
+                                    );
+                                  }),
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(),
+                            )),
+                  //wallPaper(photos, context),
+                ],
+              ),
             ),
-            //wallPaper(photos, context),
+            Positioned(
+                bottom: 20,
+                left: 38,
+                child: Container(
+                    height: 50.0,
+                    margin: EdgeInsets.all(10),
+                    // ignore: deprecated_member_use
+                    child: RaisedButton(
+                      onPressed: () {
+                        Get.find<SearchViewController>()
+                            .loadmore(widget.search.toString());
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(80.0)),
+                      padding: EdgeInsets.all(0.0),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30.0)),
+                        child: Container(
+                          constraints:
+                              BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
+                          alignment: Alignment.center,
+                          child:
+                              Get.find<SearchViewController>().isload.value ==
+                                      false
+                                  ? Text(
+                                      'Load More',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          "Loading..",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        ),
+                                        SpinKitFadingCircle(
+                                          color: Colors.white,
+                                          size: 30.0,
+                                        ),
+                                      ],
+                                    ),
+                          // Text(
+                          //   text.toString(),
+                          //   textAlign: TextAlign.center,
+                          //   style: TextStyle(color: Colors.white, fontSize: 15),
+                          // ),
+                          //),
+                        ),
+                      ),
+                    )))
           ],
         ),
       ),
