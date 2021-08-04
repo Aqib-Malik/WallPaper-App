@@ -25,10 +25,6 @@ class SearchViewController extends GetxController {
           isloading.value = false;
 
           print(photos);
-          //PhotosModel photosModel = new PhotosModel();
-          //photosModel = PhotosModel.fromMap(element);
-          //photos.add(photosModel);
-          //print(photosModel.toString()+ "  "+ photosModel.src.portrait);
         });
       });
     } catch (Exceptioon) {

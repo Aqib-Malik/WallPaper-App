@@ -6,7 +6,7 @@ import 'package:api_integration/views/fullscreen/fullscreen_binding.dart';
 import 'package:api_integration/views/home2/hom2Controller.dart';
 import 'package:api_integration/views/searchview/searchview.dart';
 import 'package:api_integration/views/searchview/searchview_binding.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+//import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -64,18 +64,7 @@ class _WallpaperrState extends State<Wallpaperr> {
                         )),
                         InkWell(
                             onTap: () {
-                              String searchText = searchController.text;
-                              searchController.text = "";
-                              if (searchText != "") {
-                                Get.to(
-                                    SearchView(
-                                      search: searchText,
-                                    ),
-                                    binding: SearchViewBinding());
-                              } else {
-                                CustomWidget.SnackBarr("Empty Field",
-                                    "Please enter a value that you want to search");
-                              }
+                              _onsearchTap();
                             },
                             child: Container(child: Icon(Icons.search)))
                       ],
@@ -125,31 +114,10 @@ class _WallpaperrState extends State<Wallpaperr> {
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(15)),
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  Get.find<Home2Controller>()
-                                                          .images[index]['src']
-                                                      ['tiny'],
+                                            child: Image.network(
+                                              Get.find<Home2Controller>()
+                                                  .images[index]['src']['tiny'],
                                               fit: BoxFit.cover,
-                                              progressIndicatorBuilder:
-                                                  (context, url,
-                                                          downloadProgress) =>
-                                                      Center(
-                                                child: SpinKitCubeGrid(
-                                                  color: Colors.white,
-                                                  //size: 50.0,
-                                                ),
-
-                                                //
-
-                                                //CircularProgressIndicator(
-                                                //   //strokeWidth: 2,
-                                                //   value: downloadProgress.progress,
-                                                // ),
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error),
                                             ),
                                           ),
 
@@ -235,5 +203,21 @@ class _WallpaperrState extends State<Wallpaperr> {
         ),
       ),
     );
+  }
+
+  _onsearchTap() {
+    String searchText = searchController.text;
+    FocusManager.instance.primaryFocus!.unfocus();
+    searchController.text = "";
+    if (searchText != "") {
+      Get.to(
+          SearchView(
+            search: searchText,
+          ),
+          binding: SearchViewBinding());
+    } else {
+      CustomWidget.SnackBarr(
+          "Empty Field", "Please enter a value that you want to search");
+    }
   }
 }

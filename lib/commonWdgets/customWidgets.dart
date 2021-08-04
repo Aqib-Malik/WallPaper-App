@@ -10,4 +10,14 @@ class CustomWidget {
         backgroundColor: Colors.blue,
         colorText: Colors.white);
   }
+
+  static dialogBox(String title, String message) {
+    return Get.defaultDialog(
+      title: title,
+      middleText: message,
+      backgroundColor: Colors.blue,
+      titleStyle: TextStyle(color: Colors.white),
+      middleTextStyle: TextStyle(color: Colors.white),
+    );
+  }
 }

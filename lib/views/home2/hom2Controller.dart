@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:api_integration/commonWdgets/customWidgets.dart';
 import 'package:api_integration/constants/strings.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -37,8 +39,19 @@ class Home2Controller extends GetxController {
     });
   }
 
+  checkConnection() async {
+    var connectivityResult = await new Connectivity().checkConnectivity();
+
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+    } else {
+      CustomWidget.SnackBarr("No Internet", "Internet is not connected");
+    }
+  }
+
   @override
   void onInit() {
+    checkConnection();
     fetchapi();
     super.onInit();
   }

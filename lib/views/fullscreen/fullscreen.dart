@@ -12,8 +12,6 @@ class FullScreen extends StatefulWidget {
 }
 
 class _FullScreenState extends State<FullScreen> {
-  //FullScreenController _downloadController = Get.put(FullScreenController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,10 +41,6 @@ class _FullScreenState extends State<FullScreen> {
                 // ignore: deprecated_member_use
                 child: RaisedButton(
                   onPressed: () {
-                    // if(Get.find<FullScreenController>().isdownload.value==true){
-                    //   Get.dialog(widget);
-
-                    // }
                     Get.find<FullScreenController>()
                         .downloadWallpaper(widget.imageurl);
                   },
@@ -81,12 +75,6 @@ class _FullScreenState extends State<FullScreen> {
                           )
                         ],
                       ),
-                      // Text(
-                      //   text.toString(),
-                      //   textAlign: TextAlign.center,
-                      //   style: TextStyle(color: Colors.white, fontSize: 15),
-                      // ),
-                      //),
                     ),
                   ),
                 )),
